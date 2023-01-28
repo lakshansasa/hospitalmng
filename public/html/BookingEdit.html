@@ -1,0 +1,85 @@
+<!-- IMPORT MODULE DETAIL -->
+<!-- 
+
+	Module : 	BookingEdit
+	
+	Links : 	Booking
+					/bookings/{id}
+.				
+	
+	Nesteds : 	
+				
+-->
+<!-- /IMPORT MODULE DETAIL -->
+<div ng-controller="BookingEditController">
+	
+	<h1>BookingEdit</h1>
+	
+	<!-- SEARCH FORM -->
+	<div class="well">
+	    <form name="form_search" class="container-fluid">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="Age">Age</label>
+				</div>
+				<div class="col-sm-9 form-group" >
+					<input type="number" ng-model="search.Age" class="form-control" name="Age" id="Age" >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="Name">Name</label>
+				</div>
+				<div class="col-sm-9 form-group" >
+					<input type="text" ng-model="search.Name" class="form-control" name="Name" id="Name" >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="Surname">Surname</label>
+				</div>
+				<div class="col-sm-9 form-group" >
+					<input type="text" ng-model="search.Surname" class="form-control" name="Surname" id="Surname" >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="address">Address</label>
+				</div>
+				<div class="col-sm-9 form-group" >
+					<input type="text" ng-model="search.address" class="form-control" name="address" id="address" >
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<!-- TABLE -->
+	<table class="table table-condensed table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>_id</th>
+				<th>Age</th>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>address</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in list | filter: {  Age:search.Age,  Name:search.Name,  Surname:search.Surname,  address:search.address,  }">
+				<td ng-bind="item._id" ng-link="/bookings/{{item._id}}"></td>
+				<td ng-bind="item.Age"></td>
+				<td ng-bind="item.Name"></td>
+				<td ng-bind="item.Surname"></td>
+				<td ng-bind="item.address"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="mb-20" ng-if="list.$resolved && (list | filter :{   Age:search.Age,  Name:search.Name,  Surname:search.Surname,  address:search.address,  }).length == 0">
+        <b>No result found</b>
+    </div>
+
+	<!-- BUTTON -->
+	<button class="btn btn-primary" ng-link="/bookings/new">New</button>
+	
+</div>

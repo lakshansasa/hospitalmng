@@ -1,0 +1,938 @@
+openapi: 3.0.0
+info:
+  title: hospitalmng
+  description: You can obtain JWT token from login API
+  version: 0.1
+servers:
+  - url: http://localhost:3000/api
+    description: Local server for testing
+paths:
+  /login:
+    post:
+      summary: Login API
+      security: []   # No security
+      tags:
+        - Security
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              example:   # Sample object
+                username: admin
+                password: 62f264d7ad826f02a8af714c0a54b197935b717656b80461686d450f7b3abde4c553541515de2052b9af70f710f0cd8a1a2d3f4d60aa72608d71a63a9a93c0f5
+      responses:
+        '200':
+          description: OK
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /verifyToken:
+    post:
+      summary: Verify token API
+      security: [] #No security
+      tags:
+        - Security
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /changePassword:
+    post:
+      summary: Change password API
+      tags:
+        - Security
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                passwordNew:
+                  type: string
+                passwordOld:
+                  type: string
+      responses:
+        '200':
+          description: OK
+                
+
+  #-----  Booking  -----
+  /booking/:
+    post:
+      summary: CRUD ACTION create
+      tags:
+        - Booking
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Age:
+                  type: number
+                Name:
+                  type: string
+                Surname:
+                  type: string
+                address:
+                  type: string
+    get:
+      summary: CRUD ACTION list
+      tags:
+        - Booking
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Booking"
+    
+  /booking/{id}:
+    delete:
+      summary: CRUD ACTION delete
+      tags:
+        - Booking
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: CRUD ACTION get
+      tags:
+        - Booking
+      parameters:
+        - name: id
+          in: path
+          description: Id resource
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+    post:
+      summary: CRUD ACTION update
+      tags:
+        - Booking
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Booking"
+    
+  #-----  Doctor  -----
+  /doctor/:
+    post:
+      summary: CRUD ACTION create
+      tags:
+        - Doctor
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Doctor"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                surname:
+                  type: string
+    get:
+      summary: CRUD ACTION list
+      tags:
+        - Doctor
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Doctor"
+    
+  /doctor/{id}:
+    delete:
+      summary: CRUD ACTION delete
+      tags:
+        - Doctor
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: CRUD ACTION get
+      tags:
+        - Doctor
+      parameters:
+        - name: id
+          in: path
+          description: Id resource
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Doctor"
+    post:
+      summary: CRUD ACTION update
+      tags:
+        - Doctor
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Doctor"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Doctor"
+    
+  /doctor/findBy_patients/{key}:
+    get:
+      summary: CRUD ACTION findBy_patients
+      tags:
+        - Doctor
+      parameters:
+        - name: key
+          in: path
+          description: Id of model to search for
+          required: true
+          schema:
+            type: Objectid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Doctor"
+    
+  #-----  Registration  -----
+  /registration/:
+    post:
+      summary: CRUD ACTION create
+      tags:
+        - Registration
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registration"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Email:
+                  type: string
+                Name:
+                  type: string
+                Password:
+                  type: object
+                Surname:
+                  type: string
+    get:
+      summary: CRUD ACTION list
+      tags:
+        - Registration
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Registration"
+    
+  /registration/{id}:
+    delete:
+      summary: CRUD ACTION delete
+      tags:
+        - Registration
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: CRUD ACTION get
+      tags:
+        - Registration
+      parameters:
+        - name: id
+          in: path
+          description: Id resource
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registration"
+    post:
+      summary: CRUD ACTION update
+      tags:
+        - Registration
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registration"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Registration"
+    
+  /registration/findBy_Doctor/{key}:
+    get:
+      summary: CRUD ACTION findBy_Doctor
+      tags:
+        - Registration
+      parameters:
+        - name: key
+          in: path
+          description: Id of model to search for
+          required: true
+          schema:
+            type: Objectid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Registration"
+    
+  /registration/findBy_patients/{key}:
+    get:
+      summary: CRUD ACTION findBy_patients
+      tags:
+        - Registration
+      parameters:
+        - name: key
+          in: path
+          description: Id of model to search for
+          required: true
+          schema:
+            type: Objectid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Registration"
+    
+  /registration/findBy_user/{key}:
+    get:
+      summary: CRUD ACTION findBy_user
+      tags:
+        - Registration
+      parameters:
+        - name: key
+          in: path
+          description: Id of model to search for
+          required: true
+          schema:
+            type: Objectid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Registration"
+    
+  #-----  User  -----
+  /user/{id}/changePassword:
+    post:
+      summary: Change password of user from admin
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+    
+  /user/:
+    post:
+      summary: CRUD ACTION create
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mail:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+                roles:
+                  type: string
+                surname:
+                  type: string
+                username:
+                  type: string
+    get:
+      summary: CRUD ACTION list
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    
+  /user/{id}:
+    delete:
+      summary: CRUD ACTION delete
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: CRUD ACTION get
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: Id resource
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    post:
+      summary: CRUD ACTION update
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+    
+  #-----  patients  -----
+  /patients/:
+    post:
+      summary: CRUD ACTION create
+      tags:
+        - patients
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/patients"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                date:
+                  type: integer
+                surname:
+                  type: string
+    get:
+      summary: CRUD ACTION list
+      tags:
+        - patients
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/patients"
+    
+  /patients/{id}:
+    delete:
+      summary: CRUD ACTION delete
+      tags:
+        - patients
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: CRUD ACTION get
+      tags:
+        - patients
+      parameters:
+        - name: id
+          in: path
+          description: Id resource
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/patients"
+    post:
+      summary: CRUD ACTION update
+      tags:
+        - patients
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/patients"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/patients"
+    
+  /patients/findBy_Doctor/{key}:
+    get:
+      summary: CRUD ACTION findBy_Doctor
+      tags:
+        - patients
+      parameters:
+        - name: key
+          in: path
+          description: Id of model to search for
+          required: true
+          schema:
+            type: Objectid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/patients"
+    
+  /patients/id/validate:
+    post:
+      summary: this API is used to validate the patients
+      security: []   # No security
+      tags:
+        - patients
+      parameters:
+        - name: id
+          in: path
+          description: id of the Patients
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+    
+    
+  #-----  User  -----
+  /Users/{id}/changePassword:
+    post:
+      summary: Change password by admin API
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                passwordNew:
+                  type: string
+                passwordAdmin:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /Users/{id}:
+    post:
+      summary: Update User API
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+    delete:
+      summary: Delete User API
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /Users:
+    post:
+      summary: Create User API
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: 'string'
+                password: 
+                  type: 'string'
+                mail: 
+                  type: 'string'
+                name: 
+                  type: 'string'
+                surname: 
+                  type: 'string'
+                roles: 
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    
+# JWT security
+security:
+  - bearerAuth: [] 
+  
+  
+# Components
+components:
+
+  # Security
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+
+  # Data Model
+  schemas:
+    User:
+      properties:
+        username:
+          type: 'string'
+        password: 
+          type: 'string'
+        mail: 
+          type: 'string'
+        name: 
+          type: 'string'
+        surname: 
+          type: 'string'
+        roles: 
+          type: array
+          items:
+            type: string
+      required:
+        - username
+        - password
+        
+
+    Booking:
+      properties:
+        _id:
+          type: string
+        Age:
+          type: number
+        Name:
+          type: string
+        Surname:
+          type: string
+        address:
+          type: string
+      required:
+        -  _id
+        - Name
+      
+    
+    Doctor:
+      properties:
+        _id:
+          type: string
+        Name:
+          type: string
+        surname:
+          type: string
+      required:
+        -  _id
+      
+    
+    Registration:
+      properties:
+        _id:
+          type: string
+        Email:
+          type: string
+        Name:
+          type: string
+        Password:
+          type: object
+        Surname:
+          type: string
+      required:
+        -  _id
+        - Name
+        - Password
+      
+    
+    User:
+      properties:
+        _id:
+          type: string
+        mail:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+        roles:
+          type: string
+        surname:
+          type: string
+        username:
+          type: string
+      required:
+        -  _id
+        - password
+        - username
+      
+    
+    patients:
+      properties:
+        _id:
+          type: string
+        Name:
+          type: string
+        date:
+          type: integer
+        surname:
+          type: string
+      required:
+        -  _id
+        - Name
+      
+    
